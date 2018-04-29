@@ -1,6 +1,6 @@
 package com.udacity.notepad.data
 
-import java.util.Date
+import java.util.*
 
 data class Note(
     var id: Int = -1,
