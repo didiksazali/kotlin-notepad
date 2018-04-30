@@ -9,6 +9,7 @@ object DataStore {
 
     val EXEC: Executor = Executors.newSingleThreadExecutor()
 
+    @JvmStatic
     lateinit var notes: NoteDatabase
         private set
 
