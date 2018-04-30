@@ -37,25 +37,16 @@ class NoteDatabase(context: Context) {
     }
 
     fun loadAllByIds(vararg ids: Int): List<Note> {
-        val questionMarks = StringBuilder()
-        var i = 0
-        while (i++ < ids.size) {
-            questionMarks.append("?")
-            if (i <= ids.size - 1) {
-                questionMarks.append(", ")
-            }
-        }
-        val args = arrayOfNulls<String>(ids.size)
-        i = 0
-        while (i < ids.size) {
-            args[i] = Integer.toString(ids[i])
-            ++i
-        }
-        val selection = _ID + " IN (" + questionMarks.toString() + ")"
+        val questionMarks = ids.map { "?" }.joinToString { ", " }
+        val args = ids.map { it.toString() }
+        val selection = "$_ID IN ($questionMarks)"
         val cursor = helper.readableDatabase.query(_TABLE_NAME, null,
                 selection,
-                args, null, null,
-                CREATED_AT)
+                args.toTypedArray(),
+                null,
+                null,
+                CREATED_AT
+        )
         val retval = allFromCursor(cursor)
         cursor.close()
         return retval
