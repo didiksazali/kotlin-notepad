@@ -29,10 +29,7 @@ class NoteDatabase(context: Context) {
                 null,
                 CREATED_AT
         )
-        return cursor.use { allFromCursor(it) }
-        val retval = allFromCursor(cursor)
-        cursor.close()
-        return retval
+        return cursor.use(this::allFromCursor)
     }
 
     init {
