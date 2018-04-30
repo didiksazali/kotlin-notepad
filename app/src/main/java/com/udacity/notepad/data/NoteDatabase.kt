@@ -53,14 +53,11 @@ class NoteDatabase(context: Context) {
     fun insert(vararg notes: Note) {
         val values = fromNotes(notes)
         val db = helper.writableDatabase
-        db.beginTransaction()
-        try {
+
+        db.transaction {
             for (value in values) {
-                db.insert(_TABLE_NAME, null, value)
+                insert(_TABLE_NAME, null, value)
             }
-            db.setTransactionSuccessful()
-        } finally {
-            db.endTransaction()
         }
     }
 
@@ -116,5 +113,15 @@ class NoteDatabase(context: Context) {
             values.add(fromNote(note))
         }
         return values
+    }
+}
+
+private fun SQLiteDatabase.transaction(function: SQLiteDatabase.() -> Unit) {
+    try {
+        beginTransaction()
+        function()
+        setTransactionSuccessful()
+    } finally {
+        endTransaction()
     }
 }
