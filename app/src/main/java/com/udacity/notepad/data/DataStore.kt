@@ -9,7 +9,7 @@ object DataStore {
 
     val EXEC: Executor = Executors.newSingleThreadExecutor()
 
-    var notes: NoteDatabase? = null
+    lateinit var notes: NoteDatabase
         private set
 
     fun init(context: Context) {
