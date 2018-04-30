@@ -47,9 +47,7 @@ class NoteDatabase(context: Context) {
                 null,
                 CREATED_AT
         )
-        val retval = allFromCursor(cursor)
-        cursor.close()
-        return retval
+        return cursor.use(this::allFromCursor)
     }
 
     fun insert(vararg notes: Note) {
